@@ -16,4 +16,8 @@
     <PackageReference Include="FluentAssertions" Version="$(FluentAssertionVersion)" />
     <PackageReference Include="Microsoft.SemanticKernel.Plugins.Web" Version="$(SemanticKernelExperimentalVersion)" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
 </Project>

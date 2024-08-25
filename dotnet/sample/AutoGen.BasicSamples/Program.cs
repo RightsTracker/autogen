@@ -25,35 +25,41 @@ allSamples.Add(new Tuple<string, Func<Task>>("Mistal Client Agent - Token Count"
 allSamples.Add(new Tuple<string, Func<Task>>("GPT4v - Binary Data Image", async () => { await Example15_GPT4V_BinaryDataImageMessage.RunAsync(); }));
 allSamples.Add(new Tuple<string, Func<Task>>("ReAct Agent", async () => { await Example17_ReActAgent.RunAsync(); }));
 
-
 int idx = 1;
-Dictionary<int, Tuple<string, Func<Task>>> map = new Dictionary<int, Tuple<string, Func<Task>>>();
-Console.WriteLine("Available Examples:\n\n");
-foreach (Tuple<string, Func<Task>> sample in allSamples)
+var map = new Dictionary<int, Tuple<string, Func<Task>>>();
+foreach (var sample in allSamples)
 {
-    map.Add(idx, sample);
-    Console.WriteLine("{0}. {1}", idx++, sample.Item1);
+    map.Add(idx++, sample);
 }
 
-Console.WriteLine("\n\nEnter your selection:");
-
-try
+while (true)
 {
-    int val = Convert.ToInt32(Console.ReadLine());
-
-    if (!map.ContainsKey(val))
+    Console.WriteLine("Available Examples:\n\n");
+    idx = 1;
+    foreach (var sample in allSamples)
     {
-        Console.WriteLine("Invalid choice");
+        Console.WriteLine("{0}. {1}", idx++, sample.Item1);
     }
-    else
+    Console.WriteLine("\n\nEnter your selection, or 999 to exit:");
+
+    try
     {
-        Console.WriteLine("\nRunning {0}", map[val].Item1);
-        await map[val].Item2.Invoke();
+        int val = Convert.ToInt32(Console.ReadLine());
+
+        if (val == 999) Environment.Exit(0);
+
+        if (!map.ContainsKey(val))
+        {
+            Console.WriteLine("Invalid choice");
+        }
+        else
+        {
+            Console.WriteLine("\nRunning {0}", map[val].Item1);
+            await map[val].Item2.Invoke();
+        }
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Exception: {ex.Message}");
     }
 }
-catch
-{
-    Console.WriteLine("Error encountered, please check your entry and run again");
-}
-
-
